@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="wih2h=device-wih2h, initial-scale=1.0" />
+        <style>
+            * {
+                margin: 0;
+            }
+            html {
+                scroll-snap-type: y mandatory;
+            }
+            body {
+                font-family: Georgia, "Times New Roman", serif;
+                line-height: 1.3;
+            }
+            section {
+                width: 100vw;
+                height: 100vh;
+                padding: 2rem;
+                box-sizing: border-box;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                scroll-snap-align: center;
+                color: lch(50 100 var(--hue));
+            }
+            h1 {
+                font-size: 1.5rem;
+                margin-bottom: 2rem;
+            }
+            p {
+                max-width: 50ch;
+            }
+            p + p {
+                margin-top: 1rem;
+            }
+        </style>
+        <title>Glossaire</title>
+    </head>
+    <section>
+        <h1>Base de données</h1>
+        <p>
+            Collection organisée de <strong>données</strong>. À ne pas confondre
+            avec <strong>système de gestion de base de données</strong>.
+        </p>
+    </section>
+    <section>
+        <h1>Donnée</h1>
+        <p>Ce qui est connu.</p>
+    </section>
+    <section>
+        <h1>Système de gestion de base de données (SGBD)</h1>
+        <p>
+            Logiciel conçu pour stocker, maintenir et utiliser une base de
+            données. Un SGBD nous permet de définir une base de données en terme
+            de son
+            <strong>modèle de données</strong>.
+        </p>
+        <p>
+            MySQL, MariaDB, PostgreSQL, SQLite sont des exemples de SGBD qui
+            utilisent un <strong>modèle de données relationnel</strong>.
+        </p>
+    </section>
+    <section>
+        <h1>Modèle de données</h1>
+        <p>
+            Manière de décrire des données sans avoir à se soucier de comment
+            ces données sont stockées concrètement. La majorité des SGDB sont
+            basés sur le
+            <strong>modèle relationnel</strong>.
+        </p>
+        <p>
+            Souvent, une base de données est d’abord conçue à l’aide d’un
+            <strong>modèle sémantique de données</strong>, lequel est ensuite
+            traduit en <strong>schémas</strong>.
+        </p>
+    </section>
+    <section>
+        <h1>Modèle sémantique de données</h1>
+        <p>
+            Manière abstraite, souvent graphique, de décrire une base de
+            données. Un des modèles sémantiques les plus utilisés est le modèle
+            entité-association.
+        </p>
+    </section>
+    <section>
+        <h1>Modèle relationnel</h1>
+        <p>
+            Base de données où les données sont organisées dans des tableaux à
+            deux dimensions appelés « relations ».
+        </p>
+    </section>
+    <section>
+        <h1>Schéma</h1>
+        <p>
+            Description des données dans un SGBD. Un SGBD contient au moins
+            trois schémas : un <strong>schéma conceptuel (ou logique)</strong>,
+            un <strong>schéma physique</strong>, et un ou plusieurs
+            <strong>schémas externes</strong>.
+        </p>
+    </section>
+    <section>
+        <h1>Schéma conceptuel (ou logique)</h1>
+        <p>
+            Description de toutes les relations comprises dans la base de
+            données. Ces relations sont définies à l’aide d’un
+            <strong>langage de définition de données</strong>.
+        </p>
+    </section>
+    <section>
+        <h1>Langage de définition de données</h1>
+        <p>
+            Langage utilisé pour définir les schémas conceptuels et externes. Le
+            langage de définition de données le plus répandu est SQL.
+        </p>
+    </section>
+    <section>
+        <h1>Schéma physique</h1>
+        <p>
+            Description de la manière dont les relations sont stocké sur disque.
+        </p>
+    </section>
+    <section>
+        <h1>Schéma externe</h1>
+        <p>
+            Descriptions des <strong>vues</strong> qui permettent un accès
+            granulaire aux données selon les besoins et les permissions des
+            utilisateur·rices.
+        </p>
+    </section>
+    <section>
+        <h1>Vue</h1>
+        <p>
+            Relation synthétique calculée à partir des relations stockées dans
+            la base de données.
+        </p>
+    </section>
+    <script>
+        const sections = document.querySelectorAll("section");
+        for (let i = 0; i < sections.length; i++) {
+            const h = (360 / sections.length) * (i + 1);
+            sections[i].style.setProperty("--hue", h);
+        }
+    </script>
+</html>
