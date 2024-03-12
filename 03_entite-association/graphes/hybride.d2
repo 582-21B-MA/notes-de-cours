@@ -1,0 +1,24 @@
+NumÉlève.shape: oval
+NumÉlève.style.underline: true
+NomÉlève.shape: oval
+CoteR.shape: oval
+
+Parent.style.stroke-width: 4
+NomParent.shape: oval
+NomParent.style.underline: true
+Age.shape: oval
+
+a.shape: hexagon
+a.style.stroke-width: 4
+
+Élève -- NumÉlève
+Élève -- NomÉlève
+Élève -- CoteR
+
+Parent -- NomParent
+Parent -- Age
+
+Élève -- a
+a -- Parent: {
+    style.stroke-width: 4
+}
