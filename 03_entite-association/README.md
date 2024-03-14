@@ -223,6 +223,32 @@ un ou une enseignante. De la même façon, certaines associations sont
 
 ![Graphe obligatoire et facultatif](graphes/obligatoire-facultatif.svg)
 
+## Généralisation et spécialisation
+
+Les exemples donnés jusqu'ici assument que les instances d'une entité
+appartient seulement à cette entité et à aucune autre. Dans la réalité,
+les choses sont plus complexes. Par exemple, un ou une chargé·e de cours
+peut aussi être un ou une employée de l'école. L'entité `Employé·e`
+possède donc deux **sous-entités**, `Chargé·e de cours` et
+`Enseignant·e`, lesquelles **héritent** des propriétés de leur
+**sur-entité**. On dira que `Chargé·e de cours` et `Enseignant·e` sont
+des **spécialisations** de `Employé·e`, et que `Employé·e` est une
+**généralisation** de `Chargé·e de cours` et `Enseignant·e`.
+
+En plus de généraliser certains attributs, une **sur-entité** permet
+aussi de décrire un domaine d'application où une instance de l'entité
+`E1` est associée **soit** à une instance de l'entité `E2` **soit** à
+une instance de l'entité `E3`.
+
+### Notation
+
+On représente visuellement la relation entre une sur-entité et ses
+sous-entités par un triangle dans lequel est inscrit « ISA » (de
+l'anglais « *is a* »). Si nos associations sont représentées par
+un hexagone, on pourra alternativement utiliser un losange.
+
+![Graphe généralisation](graphes/generalisation.svg)
+
 ## Bibliographie
 
 -   Jean-Luc Hainaut. Bases de données. Concepts, utilisation et
