@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <style>
+            * {
+                margin: 0;
+            }
+            html {
+                scroll-snap-type: y mandatory;
+            }
+            body {
+                font-family: Georgia, "Times New Roman", serif;
+                line-height: 1.3;
+            }
+            section {
+                width: 100vw;
+                height: 100vh;
+                padding: 2rem;
+                box-sizing: border-box;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                scroll-snap-align: center;
+                color: lch(50 100 var(--hue));
+            }
+            h1,
+            h2 {
+                font-size: 1.5rem;
+                margin-bottom: 2rem;
+            }
+            pre,
+            table {
+                margin: 1rem 0;
+            }
+            figcaption {
+                text-align: center;
+            }
+            img {
+                max-width: 75vw;
+                max-height: 75vh;
+            }
+            p {
+                max-width: 50ch;
+            }
+            p + p {
+                margin-top: 1rem;
+            }
+        </style>
+        <title>Glossaire</title>
+    </head>
+    <body>
+        <section>
+            <h1>Modèle relationnel</h1>
+            <p>
+                Introduit en 1970 par Edgar F. Codd, alors chercheur chez IBM,
+                le modèle relationnel propose de structurer les données d’une
+                base de données à l’aide de deux concepts élémentaires : le
+                <strong>domaine</strong> et la <strong>relation</strong>.
+                L’organisation des données dans le modèle relationnel se fait
+                sans considérations technologiques.
+            </p>
+        </section>
+        <section>
+            <h2>Ensemble (<i>set</i>)</h2>
+            <p>
+                Au sens mathématique du terme : rassemblement d’éléments
+                <em>distincts</em>. Autrement dit, tous les éléments d’un
+                <strong>ensemble</strong> sont uniques.
+            </p>
+        </section>
+        <section>
+            <h2>Domaine</h2>
+            <p>
+                <strong>Ensemble</strong> des valeurs possibles pour un seul
+                attribut. Par exemple, étant donné la proposition « un ou une
+                élève a un numéro d’élève, un nom, et une cote R », le domaine
+                de l’attribut <i>cote R</i> est 1, 2, …, 50.
+            </p>
+        </section>
+        <section>
+            <h2>Uplet (<i>tuple</i>)</h2>
+            <p>
+                Collection ordonnée et finie d’éléments. Un uplet contenant deux
+                éléments (2-uplet) est appelé « doublet ». Un 3-uplet est appelé
+                « triplet ». Un 4-uplet est appelé « quadruplet ». Et cetera.
+            </p>
+        </section>
+        <section>
+            <h2>Relation</h2>
+            <p>
+                <strong>Ensemble</strong> d’<strong>uplets</strong> dont chaque
+                valeur appartient à un <strong>domaine</strong>. Tous les uplets
+                d’une même relation contiennent exactement <i>une</i> valeur (ni
+                plus, ni moins) pour chaque domaine.
+            </p>
+        </section>
+        <section>
+            <h2>Schéma</h2>
+            <p>
+                Description d’une <strong>relation</strong>. Un
+                <strong>schéma</strong> contient le nom de la relation ainsi que
+                le nom et le type de ses attributs. La notation suivante est
+                souvent utilisée pour représenter le schéma d’une relation :
+            </p>
+            <pre><code>Students(sid: int, name: string, gpa: real)</code></pre>
+        </section>
+        <section>
+            <h2>Table</h2>
+            <p>
+                Représentation matérielle d’une <strong>relation</strong>. Par
+                exemple, une instance de la relation <code>Students</code> dont
+                le <strong>schéma</strong> est décrit ci-haut peut être
+                représentée par la <strong>table</strong> suivante :
+            </p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>sid</th>
+                        <th>name</th>
+                        <th>gpa</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>5000</td>
+                        <td>Dave</td>
+                        <td>3.3</td>
+                    </tr>
+                    <tr>
+                        <td>5368</td>
+                        <td>Madayan</td>
+                        <td>3.8</td>
+                    </tr>
+                    <tr>
+                        <td>5602</td>
+                        <td>Xuan</td>
+                        <td>3.5</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+        <section>
+            <h2>Table</h2>
+            <figure>
+                <img
+                    src="images/table.gif"
+                    alt="Représentation d’une relation"
+                />
+            </figure>
+        </section>
+        <section>
+            <h2>Degré (ou arité)</h2>
+            <p>
+                Nombre de <strong>domaines</strong> pour une
+                <strong>relation</strong> donnée. Une relation avec un seul
+                domaine (degré 1) est appelé « unaire ». Une relation de degré 2
+                est appelée « binaire ». Une relation de degré 3 est appelée «
+                ternaire ». Et cetera.
+            </p>
+        </section>
+        <section>
+            <h2>Cardinalité</h2>
+            <p>
+                Nombre de <strong>uplet</strong> pour une
+                <strong>relation</strong> donnée.
+            </p>
+        </section>
+        <script>
+            const sections = document.querySelectorAll("section");
+            for (let i = 0; i < sections.length; i++) {
+                const h = (360 / sections.length) * (i + 1);
+                sections[i].style.setProperty("--hue", h);
+            }
+        </script>
+    </body>
+</html>
