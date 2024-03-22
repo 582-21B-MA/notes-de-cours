@@ -95,7 +95,7 @@ WHERE  major NOT IN ('Computer Science', 'Philosophy', 'Literature');
 
 Il possible d'extraire seulement les lignes dont les valeurs pour
 certaines colonnes sont comprise dans un intervalle à l'aide du mot-clé
-`BETWEEN`. Ci-bas, par exemple, le résultat contiendra les lignes dont
+`BETWEEN`. Ici-bas, par exemple, le résultat contiendra les lignes dont
 la valeur de `gpa` est entre 3.0 et 3.5 :
 
 ```sql
@@ -106,7 +106,7 @@ WHERE  gpa BETWEEN 3.0 AND 3.5;
 
 #### Masques
 
-Un masque est une chaîne de caractères qui agissent comme un filte. Il
+Un masque est une chaîne de caractères qui agissent comme un filtre. Il
 désigne la structure générale des valeurs qui satisfont la condition. Le
 mot-clé `LIKE` est utilisé pour introduire un masque. Au sein du masque,
 le caractère `_` désigne un caractère quelconque, et `%` désire une
@@ -209,7 +209,7 @@ Ces fonctions renvoient soit une chaîne, soit un nombre entier :
     chaîne `ch2` ; 1 si `ch1` est vide et 0 si `ch1` n'apparaît pas
     dans `ch2`.
 -   `ch1 || ch2` : construit une chaîne composée de la concaténation
-    (mise bout-à-bout) des chaînes `ch1` et `ch2`.
+    (mise bout à bout) des chaînes `ch1` et `ch2`.
 -   `LOWER(ch)` et `UPPER(ch)` : construit une chaîne formée des
     caractères de `ch` transformés respectivement en minuscules et
     majuscules.
@@ -227,6 +227,129 @@ Par exemple, la requête suivante retourne les valeurs de la colonne
 SELECT LOWER(name) AS Name
 FROM Students;
 ```
+### Fonctions agrégatives
+
+Il existe également des fonctions prédéfinies qui donnent une valeur
+agrégée calculée pour les lignes sélectionnées :
+
+-   `COUNT(*)` donne le nombre de lignes trouvées,
+-   `COUNT(nom-colonne)` donne le nombre de valeurs de la colonne,
+-   `AVG(nom-colonne)` donne la moyenne des valeurs de la colonne, 
+-   `SUM(nom-colonne)` donne la somme des valeurs de la colonne,
+-   `MIN(nom-colonne)` donne le minimum des valeurs de la colonne, 
+-   `MAX(nom-colonne)` donne le maximum des valeurs de la colonne.
+
+La requête suivante, par exemple, fournit une table qui contient la
+moyenne, la valeur minimum et maximum, ainsi que le nombre de lignes de
+la colonne `gpa` pour les élèves qui étudient la littérature :
+
+```sql
+SELECT major    AS Major,
+       AVG(gpa) AS Average,
+       MIN(gpa) AS Minimum,
+       MAX(gpa) AS Maximum,
+       COUNT(*) AS Students
+FROM   Students
+WHERE  major = 'Literature';
+```
+### Données groupées
+
+La plupart des requêtes précédentes produisent des lignes qui
+correspondent *une pour une* avec les lignes d'une table de la clause
+FROM. Il est toutefois possible d'extraire des informations sur les
+concepts *latents* d'une table.
+
+Pour ce faire, on utilise la clause `GROUP BY`, qui permet de regrouper
+ou de classer les lignes selon leur valeur pour une colonne donnée. Par
+exemple, la requête suivante donne, pour chaque sujet d'étude, le nom de
+celui-ci, le nombre d'élève, et la moyenne des valeur de la colonne
+`gpa` :
+
+```sql
+SELECT   major    AS Major,
+         COUNT(*) AS Students,
+         AVG(gpa) AS Average
+FROM     Students
+GROUP BY major;
+```
+
+Attention, on ne peut trouver dans la cause `SELECT` que des éléments
+qui définissent *une seule valeur par groupe*. Il aurait donc été
+impossible, par exemple, d'ajouter les colonnes `name` et `login`.
+
+### Sélection de groupe
+
+Des conditions de sélection peuvent être imposées aux groupes à
+sélectionner. Elles seront exprimées dans une clause `HAVING`, ce qui
+évite toute confusion avec la clause `WHERE` qui, elle, s'applique aux
+lignes avant groupement. Dans la requête suivante, on ne retient par
+exemple que les groupes d'au moins trois élèves :
+
+```sql
+SELECT   major    AS Major,
+         COUNT(*) AS Students,
+         AVG(gpa) AS Average
+FROM     Students
+GROUP BY major
+HAVING   COUNT(*) >= 3;    
+```
+
+## Jointure
+
+Jusqu'ici, nous avons extrait des données issues d'une seule table, mais
+il est aussi possible de *coupler* les lignes de deux ou plusieurs
+tables afin d'en extraire des données corrélées. Pour ce faire, on
+précise d'abord les tables sources dans la clause `FROM`, puis on
+définit une **condition de jointure** dans la clause `WHERE`.
+
+Par exemple, la requête suivante retourne une table dont la colonne
+`name` est tirée de la table `Students` et dont la colonne `title` est
+tirée de la table `Projects` :
+
+```sql
+SELECT S.name AS Name, P.title AS "Project title"
+FROM   Students S, Projects P
+WHERE  S.sid = P.sid;
+```
+
+Conceptuellement, le résultat est obtenu comme suit :
+
+1.  Une table synthétique est construite en couplant chaque ligne de
+    la première table à chaque ligne de la seconde (clause `WHERE`).
+    La table ainsi créée contient autant de colonnes que la somme des
+    colonnes des deux tables, et autant de lignes que le produit entre
+    le nombre de ligne de la première table et le nombre de ligne de la
+    deuxième.
+2.  On sélectionne ensuite parmis les lignes de la table synthétique
+    celles qui vérifient la condition de jointure, ainsi que les autres
+    conditions éventuelles (clause `SELECT`).
+3.  On retient enfin que les colonnes demandées dans la clause `SELECT`.
+
+### Lignes célibataires
+
+Vous remarquerez que les élèves qui ne sont pas associé·es à un projet
+n'apparaissent pas dans le résultat. Nous qualifierons de
+**célibataires** les lignes qui leur correspondent. En toute généralité,
+la jointure de deux tables exclut dans chacune d'elle les lignes
+célibataires, c'est-à-dire les lignes qui n'ont pas de correspondant
+dans l'autre table.
+
+### Jointure externe
+
+Il existe une variante spéciale de la jointure, appelée **jointure
+externe** (*outer join*, en anglais), dont la particularité est de
+compléter la jointure naturelle par les lignes célibataires d'une ou des
+deux tables sources :
+
+```sql
+SELECT S.name AS Name, P.title AS "Project title"
+FROM   Students S LEFT OUTER JOIN Projects P
+ON     S.sid = P.sid;
+```
+
+Le terme `LEFT OUTER JOIN` indique qu'on inclut les lignes célibatires
+de la table de gauche dans le résultat. Il existe aussi les variantes
+`RIGHT OUTER JOIN` et `FULL OUTER JOIN`.
 
 ## Modifier des données
 
