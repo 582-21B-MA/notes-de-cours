@@ -315,14 +315,14 @@ WHERE  S.sid = P.sid;
 Conceptuellement, le résultat est obtenu comme suit :
 
 1.  Une table synthétique est construite en couplant chaque ligne de
-    la première table à chaque ligne de la seconde (clause `WHERE`).
+    la première table à chaque ligne de la seconde (clause `FROM`).
     La table ainsi créée contient autant de colonnes que la somme des
     colonnes des deux tables, et autant de lignes que le produit entre
     le nombre de ligne de la première table et le nombre de ligne de la
     deuxième.
 2.  On sélectionne ensuite parmis les lignes de la table synthétique
     celles qui vérifient la condition de jointure, ainsi que les autres
-    conditions éventuelles (clause `SELECT`).
+    conditions éventuelles (clause `WHERE`).
 3.  On retient enfin que les colonnes demandées dans la clause `SELECT`.
 
 ### Lignes célibataires
