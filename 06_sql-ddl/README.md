@@ -70,30 +70,6 @@ SQL offre plusieurs types de données :
 -   `INTERVAL` : intervalle en années/mois/jours entre dates ou en
     heures/minutes/ secondes entre instants
 
-## Ajouter une ligne
-
-Pour ajouter une ligne constituée de valeurs nouvelles, on utilise
-l'instruction `INSERT VALUES` :
-
-```sql
-INSERT INTO Students (sId, name, gpa)
-VALUES      (53045, 'Tanveer', 3.8);
-```
-
-Des circonstances particulières peuvent faire qu'il faille procéder à
-l'enregistrement d'une ligne alors que certaines données ne sont pas
-connues. Dans ces cas, on peut assigner à la colonne en question le
-*marqueur* `NULL`, ou simplement omettre celle-ci (ce qui revient au
-même) :
-
-```sql
-INSERT INTO Students (sId, name)
-VALUES      (53045, 'Tanveer');
-```
-
-Les colonnes facultatives sont délicates à manipuler. Il est préférable
-de les éviter lorsque possible.
-
 ## Contraintes d'intégrité
 
 ### Colonne obligatoire
@@ -135,7 +111,7 @@ CREATE TABLE Students (
     name   CHAR(30)  NOT NULL,
     gpa    REAL,
 
-    UNIQUE      (login),
+    UNIQUE (login),
     PRIMARY KEY (sId)
 );
 ```
@@ -145,6 +121,17 @@ toute tentative d'insertion d'une ligne dont la valeur de `login` ou
 celle de `sId` est déjà présente dans la table. Cette contrainte
 d'unicité nous assure que les valeurs de ces colonnes seront toujours
 distinctes.
+
+La notation suivante est équivalente :
+
+```sql
+CREATE TABLE Students (
+    sId    INTEGER   PRIMARY KEY,
+    login  CHAR(20)  NOT NULL  UNIQUE,
+    name   CHAR(30)  NOT NULL,
+    gpa    REAL
+);
+```
 
 ### Clé étrangère
 
@@ -199,6 +186,16 @@ cible `Projects`. Pour créer cette référence, nous utilisons le mot-clé
 `REFERENCES`, suivi du nom de la table cible. Par défaut, l'identifiant
 visé par la clé étrangère dans la table cible est l'identifiant primaire
 de celle-ci.
+
+La notation suivante est équivalente pour la table `Students` :
+
+```sql
+CREATE TABLE Students (
+    sId    INTEGER    PRIMARY KEY,
+    name   CHAR(30),
+    pName  CHAR(100)  REFERENCES Projects,
+);
+```
 
 Puisque la clé étrangère est une copie de l'identifiant cible, elle doit
 être formée de colonnes en même nombre et de mêmes types que
